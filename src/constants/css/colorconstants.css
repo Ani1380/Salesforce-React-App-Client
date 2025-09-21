@@ -1,0 +1,25 @@
+:root{
+    --dark-background: rgba(255, 255, 255, 1);
+    --dark-backdrop-filter: blur(20px) saturate(150%);
+    --dark-border: 1px solid rgba(255, 255, 255, 0.2);
+    --dark-text-primary: #00006f;
+    --dark-text-secondary: #fcf8ff;
+    --dark-text-accent: #4FC3F7;
+    /* --dark-background-grad : linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); */
+    --dark-background-grad : #3327A1;
+
+    /* Button theme colors */
+    --btn-primary: rgba(0, 122, 255, 0.25);   /* iOS blue */
+    --btn-primary-border: rgba(0, 122, 255, 0.5);
+
+    --btn-success: rgba(52, 199, 89, 0.25);   /* iOS green */
+    --btn-success-border: rgba(52, 199, 89, 0.5);
+
+    --btn-danger: rgba(255, 59, 48, 0.25);    /* iOS red */
+    --btn-danger-border: rgba(255, 59, 48, 0.5);
+
+    /* Priority based colors */
+    --low-priority : #f8d304;
+    --med-priority: #9a6201;
+    --high-priority: #9e2200;
+}

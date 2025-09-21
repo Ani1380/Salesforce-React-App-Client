@@ -1,0 +1,164 @@
+@import '../constants/css/colorconstants.css';
+* {
+  box-sizing: border-box;
+}
+/* App container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  background: var(--dark-background-grad);
+  color: #333;
+  min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background: var(--dark-background); */
+  padding: 0.8rem 1.2rem;
+  border-bottom: var(--dark-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #444;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #222;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 220px;
+  height: calc(100% - 60px);
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 1rem;
+  z-index: 1000;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 0.8rem 0;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.sidebar li:hover {
+  color: #007bff;
+}
+
+/* Welcome Section */
+.welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  padding: 1rem;
+  /* background: var(--dark-background); */
+}
+
+.welcome h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--dark-text-secondary);
+}
+
+.welcome span {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.welcome p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+/* ===== Responsive Styles ===== */
+
+/* Mobile devices */
+@media (max-width: 640px) {
+  .sidebar {
+    transform: translateX(-100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 180px;
+    z-index: 1000;
+  }
+
+  .welcome {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .welcome h2 {
+    font-size: 1.6rem;
+  }
+
+  .welcome p {
+    font-size: 1rem;
+  }
+}
+
+/* Tablets */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .welcome {
+    /* margin-left: 200px; */
+    padding: 1rem;
+  }
+
+  .welcome h2 {
+    font-size: 1.9rem;
+  }
+
+  .welcome p {
+    font-size: 1.05rem;
+  }
+}
+
+.todo-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+}

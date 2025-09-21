@@ -1,0 +1,140 @@
+@import '../constants/css/colorconstants.css';
+* {
+  box-sizing: border-box;
+}
+/* Full-page container */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--dark-background-grad); /* soft gradient */
+  /* padding: 1rem; */
+}
+
+/* App branding */
+.auth-branding {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-branding h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--dark-text-primary);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+.auth-branding p {
+  font-size: 1.125rem;
+  color: #4b5563;
+  margin-top: 0.25rem;
+}
+
+/* Clerk Card */
+.auth-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+/* Toggle between SignIn / SignUp */
+.auth-toggle {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #3b82f6;
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: center;
+}
+
+.auth-toggle:hover {
+  color: #1e40af;
+}
+
+.cl-card {
+  background: var(--dark-background);
+  backdrop-filter: var(--dark-backdrop-filter);
+}
+
+.cl-headerTitle{
+    color: var(--dark-text-primary);
+}
+
+.cl-headerSubtitle, .cl-formFieldLabel, .cl-identityPreviewEditButton, .cl-identityPreviewText, .cl-formFieldAction {
+  color: var(--dark-text-secondary);
+}
+
+.cl-lastAuthenticationStrategyBadge{
+  display: none;
+}
+
+.cl-formButtonPrimary, .cl-alternativeMethodsBlockButton{
+  background: var(--glass-bg-dark);
+  border: 1px solid var(--glass-border-dark);
+  color: var(--dark-text-primary);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cl-formButtonPrimary:hover, .cl-alternativeMethodsBlockButton:hover{
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Hide Clerk footer "New here? Sign up" */
+.cl-footerAction, .cl-footer {
+  display: none;
+}
+/* ===== Responsive Styles ===== */
+
+/* Mobile devices */
+@media (max-width: 640px) {
+  .auth-branding h1 {
+    font-size: 2rem;
+  }
+
+  .auth-branding p {
+    font-size: 1rem;
+  }
+
+  .auth-card {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
+
+  .auth-toggle {
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablets */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .auth-branding h1 {
+    font-size: 2.5rem;
+  }
+
+  .auth-branding p {
+    font-size: 1.05rem;
+  }
+
+  .auth-card {
+    max-width: 400px;
+    padding: 1.8rem;
+  }
+}
