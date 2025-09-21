@@ -6,8 +6,8 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: var(--dark-background-grad, #007bff);
-  color: #fff;
+  background: var(--dark-background);
+  color: var(--dark-background-grad);
   font-size: 1.8rem;
   display: flex;
   align-items: center;

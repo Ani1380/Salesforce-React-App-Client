@@ -1,51 +1,81 @@
-import '../styles/Dashboard.css';
+import "../styles/Dashboard.css";
 import { useEffect, useState } from "react";
 import { UserButton, useUser } from "@clerk/clerk-react";
-import { Menu } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useAccount } from "../hooks/AccountHooks";
 import logo from "../assets/logo.svg";
 import axios from "axios";
-import Todo from '../components/ToDo';
-import FloatingButton from '../components/FloatingButton';
-
+import Todo from "../components/ToDo";
+import FloatingButton from "../components/FloatingButton";
 
 export default function Dashboard() {
   const { user } = useUser();
-  const [ access_token, setAccessToken ] = useState('');
-  const [ instanceURL, setInstanceURL ] = useState('');
   const [todos, setTodos] = useState([]);
-  
-  const fetchTodos = async () => {
-    try{
-            const keyObj = await axios.post("http://localhost:4321/sf-auth");
-            setAccessToken(keyObj.data.access_token);
-            setInstanceURL(keyObj.data.instance_url);
-            const response = await axios.get(`http://localhost:4321/get-todo?authToken=${access_token}&instanceURL=${instanceURL}`);
-            setTodos(response.data.records);
-            
-        } catch (err){
-            console.error("Error in request: ",err);
-        } finally {
-            console.log("finally executed")
-        }
-  }
-  useEffect(()=>{
-    fetchTodos()
-  }, [access_token, instanceURL, user]);
+  const { accountId, setAccountId } = useAccount();
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  console.log(`URL => ${API_BASE}`);
 
-//   const getCardColor = (todo) => {
-//     if (todo.Is_Completed__c) return "rgba(0, 128, 0, 0.4)";
-//     switch (todo.Priority__c) {
-//       case "High":
-//         return "rgba(255, 0, 0, 0.4)";
-//       case "Medium":
-//         return "rgba(184, 134, 11, 0.4)"; // dark yellow / goldenrod
-//       case "Low":
-//         return "rgba(255, 255, 0, 0.4)";
-//       default:
-//         return "gray";
-//     }
-//   };
+  const setUserId = async () => {
+    try {
+      const createdAt = (
+        user.createdAt ? new Date(user.createdAt) : new Date()
+      ).toISOString();
+      const lastSignedInAt = (
+        user.lastSignInAt ? new Date(user.lastSignInAt) : new Date()
+      ).toISOString();
+      const fullName = user.fullName;
+      const clerkId = user.id;
+      const clerkEmailId = user.emailAddresses[0].emailAddress;
+      const reqBody = {
+        fullName,
+        lastSignedInAt,
+        createdAt,
+        clerkId,
+        clerkEmailId,
+      };
+      const response = await axios.post(
+        `${API_BASE}/create-account`,
+        reqBody
+      );
+      setAccountId(response.data.accountId);
+    } catch (error) {
+      console.error(`Error in account sync: ${JSON.stringify(error)}`);
+    }
+  };
+
+  const fetchTodos = async () => {
+    try {
+      const response = await axios.get(
+        `${API_BASE}/get-todo?accountId=${accountId}`
+      );
+      setTodos(response.data.records);
+    } catch (err) {
+      console.error("Error in request: ", err);
+    } finally {
+      console.log("finally executed");
+    }
+  };
+
+  useEffect(() => {
+    setUserId();
+  }, [user]);
+
+  useEffect(() => {
+    if (accountId) {
+      fetchTodos(); // fetch todos when accountId becomes available
+    }
+  }, [accountId]);
+
+  const deleteTodo = async (id) => {
+    if (!id) {
+      throw new Error("No valid Id is passed");
+    }
+    try {
+      await axios.delete(`http://localhost:4321/delete-todo?todoId=${id}`);
+      setTodos((prev) => prev.filter((todo) => todo.Id !== id));
+    } catch (error) {
+      console.error(`Error in deletion ${JSON.stringify(error)}`);
+    }
+  };
 
   todos.map((todo) => {
     console.warn(JSON.stringify(todo.Priority__c));
@@ -65,11 +95,11 @@ export default function Dashboard() {
       <main className="welcome">
         <h1> To-Dos </h1>
         <div className="todo-container">
-        {todos.map((todo) => (
-            <Todo todoObj={todo} key={todo.Id}/>
-        ))}
+          {todos.map((todo) => (
+            <Todo todoObj={todo} deleteFunction={deleteTodo} key={todo.Id} />
+          ))}
         </div>
-        <FloatingButton refreshTodos={fetchTodos}/>
+        <FloatingButton refreshTodos={fetchTodos} />
       </main>
     </div>
   );

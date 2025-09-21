@@ -1,18 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { useAccount } from "../hooks/AccountHooks.jsx";
 import "../styles/FloatingModal.css"; // we’ll style modal separately
 
 export default function FloatingButton({ refreshTodos }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { accountId } = useAccount();
+  console.log(`Account ID = ${accountId}`);
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  console.log(`URL => ${API_BASE}`);
+
   const [formData, setFormData] = useState({
     Title__c: "",
     Description__c: "",
     Priority__c: "Low",
     Due_Date__c: "",
     Is_Completed__c: false,
-    Account__c: "001J200000KhVd4IAF",
+    Account__c: accountId,
   });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+      if (accountId) {
+        setFormData({ ...formData, Account__c: accountId }); // fetch todos when accountId becomes available
+      }
+    }, [accountId]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,13 +34,8 @@ export default function FloatingButton({ refreshTodos }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const keyObj = await axios.post("http://localhost:4321/sf-auth");
-      const access_token = keyObj.data.access_token;
-      const instanceURL = keyObj.data.instance_url;
-      console.log(access_token);
-      console.log(instanceURL);
       await axios.post(
-        `http://localhost:4321/create-todo?authToken=${access_token}&instanceURL=${instanceURL}`,
+        `${API_BASE}/create-todo`,
         formData
       );
 
@@ -40,7 +47,7 @@ export default function FloatingButton({ refreshTodos }) {
         Priority__c: "Low",
         Due_Date__c: "",
         Is_Completed__c: false,
-        Account__c: "001J200000KhVd4IAF",
+        Account__c: accountId,
       });
       refreshTodos(); // 👈 refresh parent ToDo list
     } catch (err) {

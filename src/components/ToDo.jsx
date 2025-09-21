@@ -1,7 +1,7 @@
 import '../styles/Todo.css';
 import { getPriorityClass } from '../constants/js/constants';
 
-export default function Todo({todoObj}){
+export default function Todo({todoObj, deleteFunction}){
 
     var priority = getPriorityClass(todoObj.Priority__c);
     return(
@@ -22,7 +22,7 @@ export default function Todo({todoObj}){
                 <button className='completedBtn'>
                     Mark as Completed
                 </button>
-                <button className='completedBtn'>
+                <button className='completedBtn' onClick={() => deleteFunction(todoObj.Id)}>
                     Remove Task
                 </button>
             </div>
