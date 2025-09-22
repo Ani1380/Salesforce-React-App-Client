@@ -19,22 +19,10 @@ export default function Todo({todoObj, deleteFunction}){
                 <h3 className={`todo-footerText ${priority}`}>{todoObj.Priority__c}</h3>
             </div>
             <div className="todo-footerBtns">
-                <button className='completedBtn'>
-                    Mark as Completed
-                </button>
                 <button className='completedBtn' onClick={() => deleteFunction(todoObj.Id)}>
                     Remove Task
                 </button>
             </div>
         </div>
-        // <table>
-        //     <tbody>
-        //         <td>{todoObj.Title__c}</td>
-        //         <td>{todoObj.Description__c}</td>
-        //         <td>{todoObj.Due_Date__c}</td>
-        //         <td>{todoObj.Priority__c}</td>
-        //         {/* <td>{todoObj.Title__c}</td> */}
-        //     </tbody>
-        // </table>
     )
 }
