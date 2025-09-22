@@ -70,6 +70,7 @@ export default function Dashboard() {
       throw new Error("No valid Id is passed");
     }
     try {
+      alert('You really wanna delete?');
       await axios.delete(`http://localhost:4321/delete-todo?todoId=${id}`);
       setTodos((prev) => prev.filter((todo) => todo.Id !== id));
     } catch (error) {
